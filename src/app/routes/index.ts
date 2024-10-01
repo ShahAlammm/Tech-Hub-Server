@@ -4,7 +4,7 @@ import { UserRoutes } from '../modules/User/user.route';
 import { ItemRoutes } from '../modules/Item/item.route';
 import { ItemCategoryRoutes } from '../modules/ItemCategory/itemCategory.route';
 import { ProfileRoutes } from '../modules/Profile/profile.route';
-import { ClaimRequestRoutes } from '../modules/ClaimRequest/claimRequest.route';
+import { CommentRoutes } from '../modules/CommentRequest/comment.route';
 import { MeilisearchRoutes } from '../modules/Meilisearch/meilisearch.routes';
 import { ImageUploadRoutes } from '../modules/ImageUpload/imageUpload.routes';
 
@@ -24,8 +24,8 @@ const moduleRoutes = [
     route: ItemRoutes,
   },
   {
-    path: '/claim-request',
-    route: ClaimRequestRoutes,
+    path: '/comment-request',
+    route: CommentRoutes,
   },
   {
     path: '/search-items',
@@ -40,9 +40,9 @@ const moduleRoutes = [
     route: ProfileRoutes,
   },
   {
-    path: "/image-upload",
-    route: ImageUploadRoutes
-  }
+    path: '/image-upload',
+    route: ImageUploadRoutes,
+  },
 ];
 
 moduleRoutes.forEach((route) => router.use(route.path, route.route));

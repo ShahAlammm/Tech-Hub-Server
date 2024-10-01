@@ -22,14 +22,6 @@ const itemSchema = new Schema<TItem>(
       enum: Object.keys(ITEM_STATUS),
       required: true,
     },
-    isReported: {
-      type: Boolean,
-      default: false,
-    },
-    reportCount: {
-      type: Number,
-      default: 0,
-    },
     category: {
       type: Schema.Types.ObjectId,
       ref: 'ItemCategory',
@@ -40,7 +32,15 @@ const itemSchema = new Schema<TItem>(
       ref: 'User',
       required: true,
     },
-    questions: {
+    premium: {
+      type: Boolean,
+      default: false,
+    },
+    upVotes: {
+      type: [String],
+      default: [],
+    },
+    downVotes: {
       type: [String],
       default: [],
     },

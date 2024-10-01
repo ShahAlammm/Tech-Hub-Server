@@ -9,7 +9,6 @@ import { TItem } from './item.interface';
 import { Item } from './item.model';
 import {
   SearchItemByCategoryQueryMaker,
-  SearchItemByDateRangeQueryMaker,
   SearchItemByUserQueryMaker,
 } from './item.utils';
 
@@ -25,9 +24,6 @@ const createItemIntoDB = async (payload: TItem, images: TImageFiles) => {
 
 const getAllItemsFromDB = async (query: Record<string, unknown>) => {
   query = (await SearchItemByUserQueryMaker(query)) || query;
-
-  // Date range search
-  query = (await SearchItemByDateRangeQueryMaker(query)) || query;
 
   query = (await SearchItemByCategoryQueryMaker(query)) || query;
 

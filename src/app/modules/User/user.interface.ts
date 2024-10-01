@@ -10,8 +10,14 @@ export type TUser = {
   password: string;
   status: keyof typeof USER_STATUS;
   passwordChangedAt?: Date;
-  mobileNumber?: string;
   profilePhoto?: string;
+  followers?: [];
+  following?: [];
+  subscriptions?: {
+    isSubscribed: boolean;
+    subscriptionDate: string;
+    expiryDate: string;
+  };
   createdAt?: Date;
   updatedAt?: Date;
 };

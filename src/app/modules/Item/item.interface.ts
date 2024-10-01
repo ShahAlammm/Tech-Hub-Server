@@ -1,18 +1,18 @@
 import { ObjectId } from 'mongoose';
-import { TClaimRequest } from '../ClaimRequest/claimRequest.interface';
 import { ITEM_STATUS } from './item.constant';
+import { TComment } from '../CommentRequest/comment.interface';
 
 export type TItem = {
   title: string;
   description: string;
   images?: string[];
   status: keyof typeof ITEM_STATUS;
-  isReported?: boolean;
-  reportCount?: number;
   user: ObjectId;
-  category: ObjectId;
-  questions?: string[]; //*
+  category: ObjectId; //*
+  claimRequests?: TComment[]; //*
+  premium: boolean;
+  upVotes: [];
+  downVotes: [];
   createdAt?: Date;
   updatedAt?: Date;
-  claimRequests?: TClaimRequest[]; //*
 };

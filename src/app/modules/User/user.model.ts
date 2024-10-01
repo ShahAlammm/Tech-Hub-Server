@@ -38,13 +38,31 @@ const userSchema = new Schema<TUser, IUserModel>(
     passwordChangedAt: {
       type: Date,
     },
-    mobileNumber: {
-      type: String,
-      required: true,
-    },
     profilePhoto: {
       type: String,
-      default: null
+      default: null,
+    },
+    followers: {
+      type: [Schema.Types.ObjectId],
+      ref: 'User',
+    },
+    following: {
+      type: [Schema.Types.ObjectId],
+      ref: 'User',
+    },
+    subscriptions: {
+      isSubscribed: {
+        type: Boolean,
+        default: false,
+      },
+      subscriptionDate: {
+        type: Date,
+        default: null,
+      },
+      expiryDate: {
+        type: Date,
+        default: null,
+      },
     },
   },
   {
@@ -56,7 +74,6 @@ const userSchema = new Schema<TUser, IUserModel>(
 userSchema.pre('save', async function (next) {
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const user = this; // doc
-  // hashing password and save into DB
 
   user.password = await bcryptjs.hash(
     user.password,

@@ -30,31 +30,6 @@ export const SearchItemByUserQueryMaker = async (
   }
 };
 
-export const SearchItemByDateRangeQueryMaker = async (
-  query: Record<string, unknown>
-) => {
-  if (query?.from || query?.to) {
-    const dateQuery: Record<string, unknown> = {};
-
-    if (query.from) {
-      dateQuery['$gte'] = new Date(query.from as string);
-    }
-
-    if (query.to) {
-      dateQuery['$lte'] = new Date(query.to as string);
-    }
-
-    if (Object.keys(dateQuery).length > 0) {
-      query['dateFound'] = dateQuery;
-    }
-
-    delete query.from;
-    delete query.to;
-    return query;
-  }
-  return query;
-};
-
 export const SearchItemByCategoryQueryMaker = async (
   query: Record<string, unknown>
 ) => {

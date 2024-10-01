@@ -13,10 +13,13 @@ const app: Application = express();
 
 app.use(
   cors({
+    origin: ['http://localhost:3000'],
     credentials: true,
-    origin: [config.client_url as string],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
+
 app.use(cookieParser());
 
 //parser

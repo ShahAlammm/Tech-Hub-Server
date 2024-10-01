@@ -1,15 +1,10 @@
 import { ObjectId } from 'mongoose';
-import { CLAIM_REQUEST_STATUS } from './claimRequest.constant';
-
-export type TAnswers = {
-  question: string;
-  answer: string;
-};
+import { COMMENT_STATUS } from './comment.constant';
 
 export interface IItem {
   _id: ObjectId;
   title: string;
-  user: ObjectId; // Assuming this is a reference to the user who owns the item
+  user: ObjectId;
 }
 
 export interface IUser {
@@ -18,12 +13,11 @@ export interface IUser {
   email: string;
 }
 
-export type TClaimRequest = {
+export type TComment = {
   item: IItem | ObjectId;
   claimant: IUser | ObjectId;
-  status: keyof typeof CLAIM_REQUEST_STATUS;
+  status: keyof typeof COMMENT_STATUS;
   description: string;
-  answers?: TAnswers[];
   feedback?: string;
   createdAt?: Date;
   updatedAt?: Date;

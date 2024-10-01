@@ -18,7 +18,16 @@ const createUserValidationSchema = z.object({
       required_error: 'Password is required',
     }),
     status: z.nativeEnum(USER_STATUS).default(USER_STATUS.ACTIVE),
-    mobileNumber: z.string().optional(),
+    profilePhoto: z.string().optional(),
+    followers: z.array(z.string()).optional(),
+    following: z.array(z.string()).optional(),
+    subscriptions: z
+      .object({
+        isSubscribed: z.boolean().optional(),
+        subscriptionDate: z.string().optional(),
+        expiryDate: z.string().optional(),
+      })
+      .optional(),
   }),
 });
 
@@ -29,7 +38,16 @@ const updateUserValidationSchema = z.object({
     email: z.string().email().optional(),
     password: z.string().optional(),
     status: z.nativeEnum(USER_STATUS).optional(),
-    mobileNumber: z.string().optional(),
+    profilePhoto: z.string().optional(),
+    followers: z.array(z.string()).optional(),
+    following: z.array(z.string()).optional(),
+    subscriptions: z
+      .object({
+        isSubscribed: z.boolean().optional(),
+        subscriptionDate: z.string().optional(),
+        expiryDate: z.string().optional(),
+      })
+      .optional(),
   }),
 });
 
