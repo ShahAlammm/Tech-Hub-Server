@@ -9,9 +9,10 @@ const commentSchema = new Schema<TComment>(
       ref: 'Item',
       required: true,
     },
-    claimant: {
+    commenter: {
       type: Schema.Types.ObjectId,
       ref: 'User',
+      required: true,
     },
     status: {
       type: String,
@@ -21,10 +22,6 @@ const commentSchema = new Schema<TComment>(
     description: {
       type: String,
       required: true,
-    },
-    feedback: {
-      type: String,
-      default: null,
     },
   },
   {

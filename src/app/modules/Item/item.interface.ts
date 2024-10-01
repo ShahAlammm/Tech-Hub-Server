@@ -8,11 +8,11 @@ export type TItem = {
   images?: string[];
   status: keyof typeof ITEM_STATUS;
   user: ObjectId;
-  category: ObjectId; //*
-  claimRequests?: TComment[]; //*
-  premium: boolean;
-  upVotes: [];
-  downVotes: [];
+  category: string;
+  comments?: TComment[];
+  premium?: boolean;
+  upVotes?: [];
+  downVotes?: [];
   createdAt?: Date;
   updatedAt?: Date;
 };

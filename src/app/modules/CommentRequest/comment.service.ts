@@ -23,19 +23,19 @@ const createComment = async (payload: TComment, user: JwtPayload) => {
     if (item.user.toString() === user._id) {
       throw new AppError(
         httpStatus.BAD_REQUEST,
-        'Since you found the item, you are not able to claim it'
+        'Since you post the item, you are not able to comment it'
       );
     }
 
     const isCommentExists = await Comment.findOne({
       item: item._id,
-      claimant: user._id,
+      commenter: user._id,
     }).session(session); // Query with session
 
     if (isCommentExists) {
       throw new AppError(
         httpStatus.BAD_REQUEST,
-        'You have already created a claim request!'
+        'You have already created a comment!'
       );
     }
 
@@ -43,7 +43,7 @@ const createComment = async (payload: TComment, user: JwtPayload) => {
       [
         {
           item: payload.item,
-          claimant: user._id,
+          commenter: user._id,
           description: payload.description,
         },
       ],
@@ -53,7 +53,7 @@ const createComment = async (payload: TComment, user: JwtPayload) => {
     await Item.findByIdAndUpdate(
       item._id,
       {
-        $push: { claimRequests: commentRequest[0]._id },
+        $push: { commentRequests: commentRequest[0]._id },
       },
       { session }
     );
@@ -67,6 +67,13 @@ const createComment = async (payload: TComment, user: JwtPayload) => {
     session.endSession();
     throw error;
   }
+};
+
+const getCommentsById = async (id: string) => {
+  const result = await Comment.findById(id)
+    .populate('item')
+    .populate('commenter');
+  return result;
 };
 
 const updateStatusWithFeedback = async (
@@ -91,15 +98,14 @@ const updateStatusWithFeedback = async (
     new: true,
   })
     .populate('item')
-    .populate('claimant');
+    .populate('commenter');
 
   const populatedItem = result?.item as IItem;
-  const populatedClaimant = result?.claimant as IUser;
+  const populatedCommenter = result?.commenter as IUser;
 
   const emailData = {
-    recipient_name: populatedClaimant.name,
+    recipient_name: populatedCommenter.name,
     item_name: populatedItem.title,
-    feedback: result?.feedback,
     isApproved: result?.status === COMMENT_STATUS.APPROVED,
   };
 
@@ -108,7 +114,7 @@ const updateStatusWithFeedback = async (
     'claimNotification'
   );
   await EmailHelper.sendEmail(
-    populatedClaimant.email,
+    populatedCommenter.email,
     emailTemplate,
     `Your claim request is ${result?.status}!`
   );
@@ -118,5 +124,6 @@ const updateStatusWithFeedback = async (
 
 export const CommentRequestServices = {
   createComment,
+  getCommentsById,
   updateStatusWithFeedback,
 };

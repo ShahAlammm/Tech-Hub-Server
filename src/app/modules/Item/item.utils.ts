@@ -1,5 +1,4 @@
 import { QueryBuilder } from '../../builder/QueryBuilder';
-import { ItemCategory } from '../ItemCategory/itemCategory.model';
 import { UserSearchableFields } from '../User/user.constant';
 import { User } from '../User/user.model';
 
@@ -17,32 +16,8 @@ export const SearchItemByUserQueryMaker = async (
       const userIds = users.map((user) => user._id);
 
       query['user'] = { $in: userIds };
-      /**
-       * query['user'] = {
-       * $in: [
-       * ObjectId('5f7b3b3b4f3c7b0b3c7b0b3c'),
-       * ObjectId('5f7b3b3b4f3c7b0b3c7b0b3c'),
-       * ]
-       */
       delete query.searchTerm;
       return query;
     }
   }
-};
-
-export const SearchItemByCategoryQueryMaker = async (
-  query: Record<string, unknown>
-) => {
-  if (query?.category) {
-    const category = await ItemCategory.findOne({
-      name: query.category,
-    }).select('_id');
-
-    if (category) {
-      query['category'] = category._id;
-    }
-
-    return query;
-  }
-  return query;
 };

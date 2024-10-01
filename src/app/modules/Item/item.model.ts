@@ -1,5 +1,4 @@
 import { Schema, model } from 'mongoose';
-import { ItemCategory } from '../ItemCategory/itemCategory.model';
 import { ITEM_STATUS } from './item.constant';
 import { TItem } from './item.interface';
 
@@ -23,8 +22,7 @@ const itemSchema = new Schema<TItem>(
       required: true,
     },
     category: {
-      type: Schema.Types.ObjectId,
-      ref: 'ItemCategory',
+      type: String,
       required: true,
     },
     user: {
@@ -44,9 +42,9 @@ const itemSchema = new Schema<TItem>(
       type: [String],
       default: [],
     },
-    claimRequests: {
+    comments: {
       type: [Schema.Types.ObjectId],
-      ref: 'ClaimRequest',
+      ref: 'Comment',
       default: [],
       select: 0,
     },
@@ -56,18 +54,5 @@ const itemSchema = new Schema<TItem>(
     virtuals: true,
   }
 );
-
-// Middleware to increment item count in associated category
-itemSchema.post('save', async function (doc) {
-  try {
-    await ItemCategory.findByIdAndUpdate(doc.category, {
-      $inc: { postCount: 1 },
-    });
-  } catch (error) {
-    throw new Error(
-      `Failed to increment item count for category ${doc.category}: ${error}`
-    );
-  }
-});
 
 export const Item = model<TItem>('Item', itemSchema);

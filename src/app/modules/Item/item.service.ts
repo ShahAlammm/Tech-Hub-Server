@@ -7,10 +7,7 @@ import {
 import { ItemsSearchableFields } from './item.constant';
 import { TItem } from './item.interface';
 import { Item } from './item.model';
-import {
-  SearchItemByCategoryQueryMaker,
-  SearchItemByUserQueryMaker,
-} from './item.utils';
+import { SearchItemByUserQueryMaker } from './item.utils';
 
 const createItemIntoDB = async (payload: TItem, images: TImageFiles) => {
   const { itemImages } = images;
@@ -25,12 +22,7 @@ const createItemIntoDB = async (payload: TItem, images: TImageFiles) => {
 const getAllItemsFromDB = async (query: Record<string, unknown>) => {
   query = (await SearchItemByUserQueryMaker(query)) || query;
 
-  query = (await SearchItemByCategoryQueryMaker(query)) || query;
-
-  const itemQuery = new QueryBuilder(
-    Item.find().populate('user').populate('category'),
-    query
-  )
+  const itemQuery = new QueryBuilder(Item.find().populate('user'), query)
     .filter()
     .search(ItemsSearchableFields)
     .sort()
@@ -43,9 +35,7 @@ const getAllItemsFromDB = async (query: Record<string, unknown>) => {
 };
 
 const getItemFromDB = async (itemId: string) => {
-  const result = await Item.findById(itemId)
-    .populate('user')
-    .populate('category');
+  const result = await Item.findById(itemId).populate('user');
   return result;
 };
 

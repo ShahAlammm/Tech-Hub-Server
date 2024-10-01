@@ -15,10 +15,9 @@ export interface IUser {
 
 export type TComment = {
   item: IItem | ObjectId;
-  claimant: IUser | ObjectId;
+  commenter: IUser | ObjectId;
   status: keyof typeof COMMENT_STATUS;
   description: string;
-  feedback?: string;
   createdAt?: Date;
   updatedAt?: Date;
 };

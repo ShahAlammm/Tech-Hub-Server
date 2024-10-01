@@ -14,17 +14,17 @@ const createComment = catchAsync(async (req, res) => {
   });
 });
 
-// const getClaimRequestById = catchAsync(async (req, res) => {
-//   const { id } = req.params;
-//   const result = await CommentRequestServices.getClaimRequestById(id);
+const getCommentsById = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await CommentRequestServices.getCommentsById(id);
 
-//   sendResponse(res, {
-//     success: true,
-//     statusCode: httpStatus.OK,
-//     message: 'Claim request retrieved successfully',
-//     data: result,
-//   });
-// });
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Comment retrieved successfully',
+    data: result,
+  });
+});
 
 const updateStatusWithFeedback = catchAsync(async (req, res) => {
   const { id } = req.params;
@@ -44,5 +44,6 @@ const updateStatusWithFeedback = catchAsync(async (req, res) => {
 
 export const CommentControllers = {
   createComment,
+  getCommentsById,
   updateStatusWithFeedback,
 };

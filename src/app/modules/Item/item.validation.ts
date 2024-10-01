@@ -11,9 +11,7 @@ const createItemValidationSchema = z.object({
       required_error: 'Description is required',
     }),
     image: z.string().optional(),
-    status: z.nativeEnum(ITEM_STATUS).default(ITEM_STATUS.AVAILABLE),
-    isReported: z.boolean().optional(),
-    reportCount: z.number().optional(),
+    status: z.nativeEnum(ITEM_STATUS).default(ITEM_STATUS.APPROVED),
     user: z
       .string({
         required_error: 'User is required',
@@ -25,10 +23,7 @@ const createItemValidationSchema = z.object({
       .string({
         required_error: 'Category is required',
       })
-      .refine((val) => {
-        return mongoose.Types.ObjectId.isValid(val);
-      }),
-    questions: z.array(z.string()).optional(),
+      .optional(),
   }),
 });
 
@@ -38,20 +33,13 @@ const updateItemValidationSchema = z.object({
     description: z.string().optional(),
     image: z.string().optional(),
     status: z.nativeEnum(ITEM_STATUS).optional(),
-    isReported: z.boolean().optional(),
-    reportCount: z.number().optional(),
     user: z
       .string()
       .refine((val) => {
         return mongoose.Types.ObjectId.isValid(val);
       })
       .optional(),
-    category: z
-      .string()
-      .refine((val) => {
-        return mongoose.Types.ObjectId.isValid(val);
-      })
-      .optional(),
+    category: z.string().optional(),
     questions: z.array(z.string()).optional(),
   }),
 });
